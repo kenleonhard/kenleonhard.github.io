@@ -299,16 +299,18 @@ body {
 	/* LIGHT SILVER */
 	.t1-light-silver { color: #dbdbdb; }
 		a.t1-light-silver:visited { color: #acb0b3; }
-		a.t1-light-silver:hover { color: #fff; }
-		a.t1-light-silver:active { outline: dotted #7a1412; }
+		a.t1-light-silver:active,
+        a.t1-light-silver:hover { color: #fff; }
+		a.t1-light-silver:focus { outline: dotted #7a1412; }
 	.t1-dark-silver { color: #acb0b3; } /* DARK SILVER */
 
 	.t1-light-red { color: #b0282c; } /* LIGHT RED */
 	.t1-dark-red { color: #7a1412; } /* DARK RED */
 	.t1-light-grey { color: #555452; } /* LIGHT GREY */
 		a.t1-light-grey:visited { color: #353535; }
-		a.t1-light-grey:hover { color: #000; }
-		a.t1-light-grey:active { outline: dotted #7a1412; }
+		a.t1-light-grey:active,
+        a.t1-light-grey:hover { color: #000; }
+		a.t1-light-grey:focus { outline: dotted #7a1412; }
 	.t1-dark-grey { color: #353535; } /* DARK GREY */
 
 	div.t1-header {
