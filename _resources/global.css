@@ -160,7 +160,10 @@ body {
 		div.header h1 {
 			font-size: 2em;
 			font-weight: bold;
+            line-height: 110%;
 		}
+
+        div.header .back { float: right; }
 
 	/* CONTENT */
 	div.content {
