@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../_resources/global.css" />
+
+    <title>JFS Documentation | Ken Leonhard's GitHub Pages</title>
+    <meta name="description" content="JFS Documentation" />
+</head>
+
+<body>
+    <header>
+        <div class="header t1-header">
+            <h1 class="t1-light-silver">JFS Documentation</h1>
+        </div>
+    </header>
+
+    <main>
+        <div class="content t1-content">
+            <p><strong>Reference Quick Links: </strong><a href="#init-settings">Init Settings</a> | <a href="#modifiers">Modifiers</a> | <a href="#field-types">Field&nbsp;Types</a></p>
+            <p><a href="#detections">Detections</a> | <a href="#detection_operators">Detection Boolean Operators</a></p>
+            <p><a href="#actions">Actions</a> | <a href="#global_functions">Global Functions</a> | <a href="#keys">Key List</a></p>
+
+            <section>
+                <h2 style="padding-top: 0px;"><strong>QUICK START<br></strong></h2>
+
+                <h3><strong>Step 1: Add libraries and a container to your page</strong></h3>
+                <p class="t1-code t1-code-cont">&lt;head&gt;<br>&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript" src="/jquery-3.3.1.min.js"&gt;&lt;/script&gt;<br>&nbsp;&nbsp;&nbsp; &lt;script type="text/javascript" src="/jfs.min.js"&gt;&lt;/script&gt;<br>&nbsp;&nbsp;&nbsp; &lt;link type="text/css" rel="stylesheet" href="/jfs.css" /&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>&nbsp;&nbsp;&nbsp; &lt;div id='form-container'&gt;&lt;/div&gt;<br>&lt;/body&gt;<strong><br></strong></p>
+
+                <h3><strong>Step 2: Define your form in XML or JSON</strong></h3>
+                <p><em>(Note: &lt;mods&gt; are <a href="#modifiers">modifiers</a>.)</em><strong><br></strong></p>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td>
+                                <p>&lt;?xml version="1.0" encoding="UTF-8"?&gt;<br>&lt;jfs&gt;<br>&nbsp;&nbsp;&nbsp; &lt;field_sets&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;key&gt;<strong>set</strong>&lt;/key&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;fields&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;key&gt;<strong>text1</strong>&lt;/key&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;type&gt;<strong>text</strong>&lt;/type&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;<strong>Fill Me</strong>&lt;/label&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;key&gt;<strong>btn1</strong>&lt;/key&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;type&gt;<strong>button</strong>&lt;/type&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;mods&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_text</strong>&lt;/key&gt;&lt;param&gt;<strong>Then Click Me</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_function</strong>&lt;/key&gt;&lt;param&gt;<strong>Submit</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/mods&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/fields&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;/field_sets&gt;</p>
+                                <p>&lt;/jfs&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; jfs: {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sets: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k: "<strong>set</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fs: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>text1</strong>", t: "<strong>text</strong>", l: "<strong>Fill Me</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k: "<strong>btn1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; t: "<strong>button</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "btn_text", prm: "Then Click Me" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "btn_<strong>function</strong>", prm: "<strong>Submit</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp; }</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3><strong>Step 3: Initialize your form<br></strong></h3>
+                <p class="t1-code t1-code-cont"><strong>var settings = {<br>&nbsp;&nbsp;&nbsp; ContainerId: "form-container",<br>&nbsp;&nbsp;&nbsp; Functions: {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Submit: function(values, unfilled, pack, btnFunctionParamString) {<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; alert("You Typed: " + values.vs.set.text1);<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; }<br>}<br><br>jQuery(document).ready(function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; jQuery.ajax({<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; url: 'form.xml', dataType: "text",<br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; success: function(xml) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp; var formObj = JFS.ParseFormXml(xml);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JFS.Init(formObj, {}, settings);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; });<br>});<br></strong></p>
+            </section>
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <section>
+                <h3 class="clear" style="text-align: center;">------------------------ REFERENCE ------------------------</h3>
+                <h2 id="init-settings">Init Settings</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; text-align: center;"><strong>SETTING</strong></th>
+                            <th style="width: 10%; text-align: center;"><strong>TYPE</strong></th>
+                            <th style="width: 20%; text-align: center;"><strong>DEFAULT</strong></th>
+                            <th style="text-align: center;"><strong>EXAMPLE/OPTIONS</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>ContainerId</strong></td>
+                            <td>string</td>
+                            <td>*NONE - REQUIRED SETTING*</td>
+                            <td>&nbsp;"my_form"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CustomFields</strong></td>
+                            <td>object</td>
+                            <td>{}</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; readonlyfield: function(field, classList, modsDict, pack) {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var fieldVal = ("fv" in field ? field.fv : "");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var fieldContClassList = [];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ("addclass" in modsDict) { try { fieldContClassList.push(modsDict.addclass.prm); } catch(e){}; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FieldCont: 'field',<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FieldContClassList: fieldContClassList,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LabelContClassList: [],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PairContClassList: [],<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Html: "&lt;p&gt;" + fieldVal + "&lt;/p&gt;"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+                                <p>&nbsp;&nbsp;&nbsp; }</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>CustomContainers</strong></td>
+                            <td>object</td>
+                            <td>{}</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; mycont: function(classList, html, pack) {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; classList.push("my_container");<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; html = "&lt;div class=\"" + classList.join(' ') + "\"&gt;" + html + "&lt;/div&gt;";<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return html;</p>
+                                <p>&nbsp;&nbsp;&nbsp; }</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>CustomInputOptions</strong></td>
+                            <td>object</td>
+                            <td>{}</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; myoptions: function() {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "\Select...", v: "" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k: "My OptGroup",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; os: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "Option 1", v: "val1" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "Option 2", v: "val2" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp; }</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ExcludeFormTags</strong></td>
+                            <td>boolean</td>
+                            <td>*NOT IMPLEMENTED YET*</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FieldButtonPosition</strong></td>
+                            <td>string</td>
+                            <td>"right"</td>
+                            <td>"left", "right</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Functions</strong></td>
+                            <td>object</td>
+                            <td>{}</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; setfieldvalue: function(values, unfilled, pack) {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var actions = [{</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "form/field_to_update,</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "setfieldvalueto",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "NEW VALUE"</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JFS.PerformFormActions(actions, pack);</p>
+                                <p>&nbsp;&nbsp;&nbsp; }</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>IconLabelPosition</strong></td>
+                            <td>string</td>
+                            <td>"right"</td>
+                            <td>"left", "right"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>IncludeAutoCompleteTrigger</strong></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>Set to "true" and use JFS.TriggerAutoCompleteSubmit(ContainerId]) to trick the browser into thinking you submitted and saving autocomplete info.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>InlineOptions</strong></td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>InfoBubbleIcon</strong></td>
+                            <td>string</td>
+                            <td>""</td>
+                            <td>"/images/icon_info.png"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Interface</strong></td>
+                            <td>string</td>
+                            <td>"standard"</td>
+                            <td>"standard", "touch"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LabelPosition</strong></td>
+                            <td>string</td>
+                            <td>"above"</td>
+                            <td>"above", "below", "left", "right"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LabelSuffix</strong></td>
+                            <td>string</td>
+                            <td>":"</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LabelRequiredString</strong></td>
+                            <td>string</td>
+                            <td>"&lt;span class='jfs_required_label'&gt;*&lt;/span&gt;"</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LabelRequiredPrepend</strong></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NoValidate</strong></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OptionLabelPosition</strong></td>
+                            <td>string</td>
+                            <td>"right"</td>
+                            <td>"left", "right"</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ResetPageTabIndexes</strong></td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>UseHtml5Required</strong></td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2 id="modifiers">Modifiers</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; text-align: center;"><strong>KEY</strong></th>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>addclass</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>addclass</strong>&lt;/key&gt;&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>addclass</strong>", prm: "<strong>myclass</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>allowchars</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>allowchars</strong>&lt;/key&gt;&lt;param&gt;<strong>abcdef</strong>&lt;/param&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>allowchars</strong>", prm: "<strong>abcdef</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>augmentbuttons</strong></td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>augmentbuttons</strong>&lt;/key&gt;<br>&lt;field_btns&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;params&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_position</strong>&lt;/key&gt;&lt;param&gt;<strong>left</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_icon</strong>&lt;/key&gt;&lt;param&gt;<strong>/icons/browse.png</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_title</strong>&lt;/key&gt;&lt;param&gt;<strong>Browse</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_function</strong>&lt;/key&gt;&lt;param&gt;<strong>AssetBrowser</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_function_param</strong>&lt;/key&gt;&lt;param&gt;<strong>mystring</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/params&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/field_btns&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{<br>&nbsp;&nbsp;&nbsp; k: "<strong>augmentbuttons</strong>",<br>&nbsp;&nbsp;&nbsp; fbts: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prms: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_position</strong>", prm: "<strong>left</strong>" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_icon</strong>", prm: "<strong>/icons/browse.png</strong>" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_title</strong>", prm: "<strong>Browse</strong>" },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_function</strong>", prm: "<strong>AssetBrowser</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_function_param</strong>", prm: "<strong>mystring</strong>" }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>augmenthtml</strong></td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>augmenthtml</strong>&lt;/key&gt;<br>&lt;params&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_above</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_below</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_label_above</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_label_below</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_field_above</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html_field_below</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;<br>&lt;/params&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{<br>&nbsp;&nbsp;&nbsp; k: "<strong>augmenthtml</strong>",<br>&nbsp;&nbsp;&nbsp; prms: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_above</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_below</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_label_above</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_label_below</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_field_above</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html_field_below</strong>", prm: "<strong>&lt;p&gt;Info&lt;/p&gt;</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_text</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_text</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA[<strong>Submit</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_text</strong>", prm: "<strong>Submit</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_title</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_title</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA[<strong>Click to Submit</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_title</strong>", prm: "<strong>Click to Submit</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_position</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_position</strong>&lt;/key&gt;&lt;param&gt;<strong>right</strong>&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_position</strong>", prm: "<strong>right</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_icon</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_icon</strong>&lt;/key&gt;&lt;param&gt;<strong>/images/btn.png</strong>&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_icon</strong>", prm: "<strong>/images/btn.png</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_icon_label_position</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_icon_label_position</strong>&lt;/key&gt;&lt;param&gt;<strong>left</strong>&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_icon_label_position</strong>", prm: "<strong>left</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_function</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_function</strong>&lt;/key&gt;&lt;param&gt;<strong>SubmitButtonClicked</strong>&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_function</strong>", prm: "<strong>SubmitButtonClicked</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>btn_function_param</strong></td>
+                            <td style="text-align: left;">&lt;i&gt;&lt;key&gt;<strong>btn_function_param</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA[<strong>more,data</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>btn_function_param</strong>", prm: "<strong>more,data</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>charcounter</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>charcounter</strong>&lt;/key&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>charcounter</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;">
+                                <p><strong>count</strong></p>
+                                <p>Note: For Repeatable Groups</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>count</strong>&lt;/key&gt;</p>
+                                <p>&lt;params&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>min</strong>&lt;/key&gt;&lt;param&gt;<strong>2</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>max</strong>&lt;/key&gt;&lt;param&gt;<strong>5</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&lt;/params&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{<br>&nbsp;&nbsp;&nbsp; k: "<strong>count</strong>",<br>&nbsp;&nbsp;&nbsp; prms: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>min</strong>", prm: "<strong>2</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>max</strong>", prm: "<strong>5</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>infobubble</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>infobubble</strong>&lt;/key&gt;<br>&lt;params&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>icon</strong>&lt;/key&gt;&lt;param&gt;<strong>/icons/info.png</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>html</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Instructions...&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;<br>&lt;/params&gt;</td>
+                            <td style="text-align: left;">
+                                <p>{<br>&nbsp;&nbsp;&nbsp; k: "<strong>infobubble</strong>",<br>&nbsp;&nbsp;&nbsp; prms: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>icon</strong>", prm: "<strong>/icons/info.png</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>html</strong>", prm: "<strong>&lt;p&gt;Field Instructions...&lt;/p&gt;</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>labelsuffix</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>labelsuffix</strong>&lt;/key&gt;&lt;param&gt;<strong>-</strong>&lt;/param&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>labelsuffix</strong>", prm: "<strong>-</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>length</strong></td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>length</strong>&lt;/key&gt;<br>&lt;params&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>min</strong>&lt;/key&gt;&lt;param&gt;<strong>5</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>max</strong>&lt;/key&gt;&lt;param&gt;<strong>50</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>status</strong>&lt;/key&gt;&lt;param&gt;&lt;![CDATA[<strong>80%</strong>]]&gt;&lt;/param&gt;&lt;/i&gt;<br>&lt;/params&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{<br>&nbsp;&nbsp;&nbsp; k: "<strong>length</strong>",<br>&nbsp;&nbsp;&nbsp; prms: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>min</strong>", prm: "<strong>5</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>max</strong>", prm: "<strong>50</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>status</strong>", prm: "<strong>80%</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>max</strong></td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>max</strong>&lt;/key&gt;&lt;param&gt;<strong>50</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{ k: "<strong>max</strong>", prm: "<strong>50</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>min</strong></td>
+                            <td style="text-align: left;">
+                                <p>&lt;key&gt;<strong>min</strong>&lt;/key&gt;&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td style="text-align: left;">
+                                <p>{ k: "<strong>min</strong>", prm: "<strong>5</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 20%; text-align: left;"><strong>preventchars</strong></td>
+                            <td style="text-align: left;">&lt;key&gt;<strong>preventchars</strong>&lt;/key&gt;&lt;param&gt;<strong>0123456789</strong>&lt;/param&gt;</td>
+                            <td style="text-align: left;">{ k: "<strong>preventchars</strong>", prm: "<strong>0123456789</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>required</strong></td>
+                            <td>
+                                <p>&lt;key&gt;<strong>required</strong>&lt;/key&gt;&lt;param&gt;<strong>The link field is unfilled.</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>{ k: "<strong>required</strong>", prm: "<strong>The link field is unfilled.</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>requiredcustom</strong></td>
+                            <td>*NOT IMPLEMENTED YET*</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>requiredprepend</strong></td>
+                            <td>&lt;key&gt;<strong>requiredprepend</strong>&lt;/key&gt;&lt;param&gt;<strong>true</strong>&lt;/param&gt;</td>
+                            <td>{ k: "<strong>requiredprepend</strong>", prm: "<strong>true</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>status</strong></td>
+                            <td>&lt;key&gt;<strong>status</strong>&lt;/key&gt;&lt;param&gt;<strong>80%</strong>&lt;/param&gt;</td>
+                            <td>{ k: "<strong>status</strong>", prm: "<strong>80%</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>widthfillwrap</strong></td>
+                            <td>&lt;key&gt;<strong>widthfillwrap</strong>&lt;/key&gt;</td>
+                            <td>{ k: "<strong>widthfillwrap</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>wordcounter</strong></td>
+                            <td>&lt;key&gt;<strong>wordcounter</strong>&lt;/key&gt;</td>
+                            <td>{ k: "<strong>wordcounter</strong>" }</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+                <h2 id="field-types">Field Types</h2>
+
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; text-align: center;"><strong>TYPE</strong></th>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                            <th style="text-align: center;"><strong>SUPPORTED MODIFIERS</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>button</strong></td>
+                            <td>
+                                <p>&lt;key&gt;<strong>button1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>button</strong>&lt;/type&gt;<br>&lt;mods&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_text</strong>&lt;/key&gt;&lt;param&gt;<strong>Submit</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_function</strong>&lt;/key&gt;&lt;param&gt;<strong>Submit</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>btn_function_param</strong>&lt;/key&gt;&lt;param&gt;<strong>mystring</strong>&lt;/param&gt;&lt;/i&gt;<br>&lt;/mods&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>button1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>button</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_text</strong>", prm: "<strong>Submit</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_function</strong>", prm: "<strong>Submit</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>btn_function_param</strong>", prm: "<strong>mystring</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><strong>checkbox</strong></p>
+                                <p>Note: Supports Custom Options</p>
+                            </td>
+                            <td>&lt;key&gt;<strong>checkbox1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>checkbox</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Checkbox Field 1</strong>&lt;/label&gt;<br>&lt;options&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Box 1</strong>&lt;/label&gt;&lt;value&gt;<strong>val1</strong>&lt;/value&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Box 2</strong>&lt;/label&gt;&lt;value&gt;<strong>val2</strong>&lt;/value&gt;&lt;/i&gt;<br>&lt;/options&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>checkbox1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>checkbox</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Checkbox Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; os: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Box 1</strong>", v: "<strong>val1</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Box 2</strong>", v: <strong>"val2"</strong> }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>date</strong></td>
+                            <td>&lt;key&gt;<strong>date1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>date</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Date Field 1</strong>&lt;/label&gt;<br>&lt;mods&gt;<br><strong>&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker Settings...</em></strong><br>&lt;/mods&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>date1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>date</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Date Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker Settings...</em></strong></p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>datetime</strong></td>
+                            <td>&lt;key&gt;<strong>datetime1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>datetime</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>DateTime Field 1</strong>&lt;/label&gt;<br>&lt;mods&gt;<br><strong>&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker w/Timepicker Addon Settings...</em></strong><br>&lt;/mods&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>datetime1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>datetime</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>DateTime Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker w/Timepicker Addon Settings...</em></strong></p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>datetime-local</strong></td>
+                            <td>&lt;key&gt;<strong>datetimelocal1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>datetime-local</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>DateTime-Local Field 1</strong>&lt;/label&gt;<br>&lt;mods&gt;<br><strong>&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker w/Timepicker Addon Settings...</em></strong><br>&lt;/mods&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>datetimelocal1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>datetime-local</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>DateTime-Local Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>...jQuery UI Datepicker w/Timepicker Addon Settings...</em></strong></p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>hidden</strong></td>
+                            <td>&lt;key&gt;<strong>hidden1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>hidden</strong>&lt;/type&gt;<br>&lt;field_value&gt;<strong>val</strong>&lt;/field_value&gt;</td>
+                            <td>
+                                <p>{ k: "<strong>hidden1</strong>", t: "<strong>hidden</strong>", fv: "<strong>val</strong>" }</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>html</strong></td>
+                            <td>&lt;key&gt;<strong>html1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>html</strong>&lt;/type&gt;<br>&lt;field_value&gt;&lt;![CDATA[<strong>&lt;p&gt;Html Content&lt;/p&gt;</strong>]]&gt;&lt;/field_value&gt;</td>
+                            <td>
+                                <p>{ k: "<strong>html1</strong>", t: "<strong>html</strong>", fv: "<strong>&lt;p&gt;Html Content&lt;/p&gt;</strong>" }</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>number</strong></td>
+                            <td>
+                                <p>&lt;key&gt;<strong>number1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>number</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Number Field 1</strong>&lt;/label&gt;</p>
+                                <p>&lt;mods&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;key&gt;<strong>length</strong>&lt;/key&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;params&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>min</strong>&lt;/key&gt;&lt;param&gt;<strong>5</strong>&lt;/param&gt;&lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>max</strong>&lt;/key&gt;&lt;param&gt;<strong>50</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/params&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/mods&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>number1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>number</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Number Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k: "<strong>length</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prms: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>min</strong>", prm: "<strong>5</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: <strong>"max",</strong> prm: "<strong>50</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap, min, max</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>password</strong></td>
+                            <td>&lt;key&gt;<strong>password1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>password</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Password Field 1</strong>&lt;/label&gt;</td>
+                            <td>{ k: "<strong>password1</strong>", t: "<strong>password</strong>"<strong>,</strong> l: "<strong>Password Field 1</strong>" }</td>
+                            <td><strong>addclass, widthfillwrap, length, allowchars, preventchars</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><strong>radio</strong></p>
+                                <p>Note: Supports Custom Options</p>
+                            </td>
+                            <td>&lt;key&gt;<strong>radio1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>radio</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Radio Field 1</strong>&lt;/label&gt;<br>&lt;options&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Radio 1</strong>&lt;/label&gt;&lt;value&gt;<strong>val1</strong>&lt;/value&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Radio 2</strong>&lt;/label&gt;&lt;value&gt;<strong>val2</strong>&lt;/value&gt;&lt;/i&gt;<br>&lt;/options&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>radio1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>radio</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Radio Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; os: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Radio 1</strong>", v: "<strong>val1</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Radio 2</strong>", v: "<strong>val2</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>range</strong></td>
+                            <td>&lt;key&gt;<strong>range1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>range</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Range Field 1</strong>&lt;/label&gt;<br>&lt;mods&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>min</strong>&lt;/key&gt;&lt;param&gt;<strong>5</strong>&lt;/param&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>max</strong>&lt;/key&gt;&lt;param&gt;<strong>10</strong>&lt;/param&gt;&lt;/i&gt;<br>&lt;/mods&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>range1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>range</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; m: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>min</strong>", prm: "<strong>5</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>max</strong>", prm: "<strong>10</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap, min, max</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>repeatablegroup</strong></td>
+                            <td>&lt;key&gt;<strong>repgroup1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>repeatablegroup</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Repeatable Group 1</strong>&lt;/label&gt;<br>&lt;control_btns&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>add</strong>&lt;/key&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>up</strong>&lt;/key&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>down</strong>&lt;/key&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;key&gt;<strong>remove</strong>&lt;/key&gt;&lt;/i&gt;<br>&lt;/control_btns&gt;<br>&lt;field_sets&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;legend&gt;<strong>Group Legend</strong>&lt;/legend&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;fields&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;key&gt;<strong>inner1</strong>&lt;/key&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;type&gt;<strong>text</strong>&lt;/type&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;label&gt;<strong>Inner Text Field</strong>&lt;/label&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;/fields&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/field_sets&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>repgroup1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>repeatablegroup</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Repeatable Group 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; cbts: [ { k: "<strong>add</strong>" }, { k: "<strong>up</strong>" }, { k: "<strong>down</strong>" }, { k: "<strong>remove</strong>" } ],</p>
+                                <p>&nbsp;&nbsp;&nbsp; sets: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lg: "<strong>Group Legend</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fs: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { k: "<strong>inner1</strong>", t: "<strong>text</strong>", l: "<strong>Inner Text Field</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><strong>select</strong></p>
+                                <p>Note: Supports Custom Options</p>
+                            </td>
+                            <td>&lt;key&gt;<strong>select1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>select</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Select Field 1</strong>&lt;/label&gt;<br>&lt;options&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Option 1</strong>&lt;/label&gt;&lt;value&gt;<strong>val1</strong>&lt;/value&gt;&lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;&lt;label&gt;<strong>Option 2</strong>&lt;/label&gt;&lt;value&gt;<strong>val2</strong>&lt;/value&gt;&lt;/i&gt;<br>&lt;/options&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; k: "<strong>select1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; t: "<strong>select</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; l: "<strong>Select Field 1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; os: [</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Option 1</strong>", v: "<strong>val1</strong>" },</p>
+                                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { l: "<strong>Option 2</strong>", v: "<strong>val2</strong>" }</p>
+                                <p>&nbsp;&nbsp;&nbsp; ]</p>
+                                <p>}</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p><strong>tel</strong></p>
+                            </td>
+                            <td>&lt;key&gt;<strong>tel1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>tel</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Tel Field 1</strong>&lt;/label&gt;</td>
+                            <td>
+                                <p>{ k: "<strong>tel1</strong>", t: "<strong>tel</strong>", l: "<strong>Tel Field 1</strong>" }</p>
+                            </td>
+                            <td>
+                                <p><strong>addclass, widthfillwrap<br></strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>text</strong></td>
+                            <td>&lt;key&gt;<strong>text1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>text</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Text Field 1</strong>&lt;/label&gt;</td>
+                            <td>{ k: "<strong>text1</strong>", t: "<strong>text</strong>", l: "<strong>Text Field 1</strong>" }</td>
+                            <td><strong>addclass, widthfillwrap, length, allowchars, preventchars, charcounter, wordcounter</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>textarea</strong></td>
+                            <td>&lt;key&gt;<strong>textarea1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>textarea</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Text Area Field 1</strong>&lt;/label&gt;</td>
+                            <td>{ k: "<strong>textarea1</strong>", t: "<strong>textarea</strong>", l: "<strong>Text Area Field 1</strong>" }</td>
+                            <td><strong>addclass, widthfillwrap, length, allowchars, preventchars, charcounter, wordcounter</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>url</strong></td>
+                            <td>&lt;key&gt;<strong>url1</strong>&lt;/key&gt;<br>&lt;type&gt;<strong>url</strong>&lt;/type&gt;<br>&lt;label&gt;<strong>Url Field 1</strong>&lt;/label&gt;</td>
+                            <td>{ k: "<strong>url1</strong>", t: "<strong>url</strong>", l: "<strong>Url Field 1</strong>" }</td>
+                            <td><strong>addclass, widthfillwrap</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2 id="detections">Detections</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; text-align: center;"><strong>DETECTION</strong></th>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>checkboxvaluecontains</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>checkboxvaluedoesnotcontain</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>checkboxvaluedoesnotcontain</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluedoesnotcontain</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>checkboxvaluesumgreaterthan</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>checkboxvaluesumgreaterthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluesumgreaterthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>checkboxvaluesumis<br></strong>(Values must be integers.)<strong><br></strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>checkboxvaluesumis</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluesumis</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>checkboxvaluesumlessthan<br></strong>(Values must be integers.)<strong><br></strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>checkboxvaluesumlessthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluesumlessthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>groupitemcountgreaterthan</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>groupitemcountgreaterthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>groupitemcountgreaterthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>groupitemcountis</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>groupitemcountis</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>groupitemcountis</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>groupitemcountlessthan</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>groupitemcountlessthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>5</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/group</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>groupitemcountlessthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>hasvalue</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>hasvalue</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>ishidden</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>hasvaluenotempty</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>hasvaluenotempty</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>hasvaluenotempty</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>hasnovalue</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>hasnovalue</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>hasnovalue</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>hasnovalueorempty</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>hasnovalueorempty</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", det: "<strong>hasnovalueorempty</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ishidden</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>ishidden</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", det: "<strong>ishidden</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>isshown</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>isshown</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", det: "<strong>isshown</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>onblur</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onblur</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>onblur</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>onchange</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onchange</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>onchange</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>onchangenotempty</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onchangenotempty</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>onchangenotempty</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>onfocus</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onfocus</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", det: "<strong>onfocus</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ongroupitemadd</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;&lt;detect&gt;<strong>ongroupitemadd</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/group</strong>", det: "<strong>ongroupitemadd</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ongroupitemmove</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;&lt;detect&gt;<strong>ongroupitemmove</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/group</strong>", det: "<strong>ongroupitemmove</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ongroupitemmovedown</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;&lt;detect&gt;<strong>ongroupitemmovedown</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/group</strong>", det: "<strong>ongroupitemmovedown</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ongroupitemmoveup</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;&lt;detect&gt;<strong>ongroupitemmoveup</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/group</strong>", det: "<strong>ongroupitemmoveup</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>ongroupitemremove</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/group</strong>&lt;/target&gt;&lt;detect&gt;<strong>ongroupitemremove</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/group</strong>", det: "<strong>ongroupitemremove</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>onhide</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onhide</strong>&lt;/detect&gt;</td>
+                            <td>{ tgt: "<strong>set/field</strong>", det: "<strong>onhide</strong>" }</td>
+                        </tr>
+                        <tr>
+                            <td><strong>onshow</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;&lt;detect&gt;<strong>onshow</strong>&lt;/detect&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", det: "<strong>onshow</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>valueis</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>valueis</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>1</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>valueis</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>1</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>valueisnot</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>valueisnot</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>yes</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>valueisnot</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>yes</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>valuelessthan</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>valuelessthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>10</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>valuelessthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>10</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>valuegreaterthan</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;</p>
+                                <p>&lt;detect&gt;<strong>valuegreaterthan</strong>&lt;/detect&gt;</p>
+                                <p>&lt;param&gt;<strong>10</strong>&lt;/param&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; det: "<strong>valuegreaterthan</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>10</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2 id="detection_operators">Detection Boolean Operators</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%; text-align: center;"><strong>OPERATOR</strong></th>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>OR<br></strong>(Default)<strong><br></strong></td>
+                            <td>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>valueis</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>1</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>valueis</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>2</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>addclasstopair</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>myclass</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>removeclassfrompair</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>myclass</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</td>
+                            <td>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>valueis</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>1</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>valueis</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>2</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>addclasstopair</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>removeclassfrompair</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AND</strong></td>
+                            <td>
+                                <p>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>valuegreaterthan</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>5</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>valuelessthan</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>10</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;</p>
+                                <p>&nbsp;</p>
+                                <p>&lt;bool_operator&gt;<strong>AND</strong>&lt;/bool_operator&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>showfield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>hidefield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</p>
+                            </td>
+                            <td>
+                                <p>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>valuegreaterthan</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>5</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>valuelessthan</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>10</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; bop: "<strong>AND</strong>",<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>showfield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>hidefield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                                <p>&nbsp;</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>XOR</strong></td>
+                            <td>
+                                <p>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>coke</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>pepsi</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;</p>
+                                <p>&nbsp;</p>
+                                <p>&lt;bool_operator&gt;<strong>XOR</strong>&lt;/bool_operator&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>showfield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>hidefield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</p>
+                            </td>
+                            <td>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>coke</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>pepsi</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; bop: "<strong>XOR</strong>",<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>showfield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>hidefield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Greater Than N Detections Are True</strong></td>
+                            <td>
+                                <p>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>smart</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>good-looking</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>rich</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;</p>
+                                <p>&nbsp;</p>
+                                <p>&lt;bool_operator&gt;&lt;![CDATA[&gt;<strong>1</strong>]]&gt;&lt;/bool_operator&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>showfield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>hidefield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</p>
+                            </td>
+                            <td>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>smart</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>good-looking</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>rich</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; bop: "<strong>&gt;1</strong>",<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>showfield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>hidefield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fewer Than N Detections Are True</strong></td>
+                            <td>
+                                <p>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>red</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>green</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;</p>
+                                <p>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>blue</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;</p>
+                                <p>&nbsp;</p>
+                                <p>&lt;bool_operator&gt;&lt;![CDATA[&lt;<strong>3</strong>]]&gt;&lt;/bool_operator&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>showfield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field2</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>hidefield</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</p>
+                            </td>
+                            <td>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>red</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>green</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>blue</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; bop: "<strong>&lt;3</strong>",<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>showfield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field2</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>hidefield</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exactly N Detections Are True</strong></td>
+                            <td>
+                                <p>&lt;detections&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>you</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;detect&gt;<strong>checkboxvaluecontains</strong>&lt;/detect&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>me</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/detections&gt;</p>
+                                <p>&nbsp;</p>
+                                <p>&lt;bool_operator&gt;&lt;![CDATA[<strong>=2</strong>]]&gt;&lt;/bool_operator&gt;<br><br>&lt;actions_true&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>addclasstopair</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>happiness</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_true&gt;<br><br>&lt;actions_false&gt;<br>&nbsp;&nbsp;&nbsp; &lt;i&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;action&gt;<strong>removeclassfrompair</strong>&lt;/action&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;param&gt;<strong>happiness</strong>&lt;/param&gt;<br>&nbsp;&nbsp;&nbsp; &lt;/i&gt;<br>&lt;/actions_false&gt;</p>
+                            </td>
+                            <td>
+                                <p>{<br>&nbsp;&nbsp;&nbsp; dets: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>you</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; det: "<strong>checkboxvaluecontains</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>me</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; bop: "<strong>=2</strong>",<br>&nbsp;&nbsp;&nbsp; actst: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>addclasstopair</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>happiness</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ],<br>&nbsp;&nbsp;&nbsp; actsf: [<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; act: "<strong>removeclassfrompair</strong>",<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prm: "<strong>happiness</strong>"<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp; ]<br>}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2 id="actions">Actions</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;"><strong>ACTION</strong></th>
+                            <th style="text-align: center;"><strong>XML</strong></th>
+                            <th style="text-align: center;"><strong>JSON</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>addclasstofieldcont</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>addclasstofieldcont</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>addclasstofieldcont</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>addclasstolabelcont</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>addclasstolabelcont</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>addclasstolabelcont</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>addclasstopair</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>addclasstopair</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>addclasstopair</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>appendlabelwith</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>appendlabelwith</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;span class='alert'&gt;UNFILLED&lt;/span&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>appendlabelwith</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;span class='alert'&gt;UNFILLED&lt;/span&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>disablefield</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>disablefield</strong>&lt;/action&gt;</p>
+                                <p>or</p>
+                                <p>&lt;target&gt;<strong>set/selectfield/2</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>disablefield</strong>&lt;/action&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", act: "<strong>disablefield</strong>" }</p>
+                                <p>or</p>
+                                <p>{ tgt: "<strong>set/selectfield/2</strong>", act: "<strong>disablefield</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>enablefield</strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>enablefield</strong>&lt;/action&gt;</p>
+                                <p>or</p>
+                                <p>&lt;target&gt;<strong>set/selectfield/2</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>enablefield</strong>&lt;/action&gt;</p>
+                            </td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", act: "<strong>enablefield</strong>" }</p>
+                                <p>or</p>
+                                <p>{ tgt: "<strong>set/selectfield/2</strong>", act: "<strong>enablefield</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>hidefield</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>hidefield</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>hidefield</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>prependlabelwith</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>prependlabelwith</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;span class='alert'&gt;UNFILLED&lt;/span&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>prependlabelwith</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;span class='alert'&gt;UNFILLED&lt;/span&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmlabove</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmlabove</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmlabove</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmlbelow</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmlbelow</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmlbelow</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmlfieldabove</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmlfieldabove</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmlfieldabove</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmlfieldbelow</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmlfieldbelow</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmlfieldbelow</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmllabelabove</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmllabelabove</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmllabelabove</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeaugmenthtmllabelbelow</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeaugmenthtmllabelbelow</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeaugmenthtmllabelbelow</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeclassfromfieldcont</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeclassfromfieldcont</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeclassfromfieldcont</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeclassfromlabelcont</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeclassfromlabelcont</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeclassfromlabelcont</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeclassfrompair</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeclassfrompair</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeclassfrompair</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>removeelementwithselector</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>removeelementwithselector</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>label span.alert</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>removeelementwithselector</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>label span.alert</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>runfunction</strong></td>
+                            <td>&lt;target&gt;<strong>MyFunction</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>runfunction</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>MyFunction</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>runfunction</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>scrollto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>scrollto</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", act: "<strong>scrollto</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmlaboveto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmlaboveto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmlaboveto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmlbelowto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmlbelowto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmlbelowto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmlfieldaboveto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmlfieldaboveto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmlfieldaboveto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmlfieldbelowto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmlfieldbelowto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmlfieldbelowto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmllabelaboveto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmllabelaboveto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmllabelaboveto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setaugmenthtmllabelbelowto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setaugmenthtmllabelbelowto</strong>&lt;/action&gt;<br>&lt;param&gt;&lt;![CDATA<strong>[&lt;p&gt;Field Info&lt;/p&gt;</strong>]]&gt;&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setaugmenthtmllabelbelowto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>&lt;p&gt;Field Info&lt;/p&gt;</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setfieldvalueto<br></strong>(Also works radio and checkbox fields. To check multiple checkboxes, pass pipe-seperated values.)</td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setfieldvalueto</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>val</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setfieldvalueto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>val</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setfocusto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setfocusto</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{ tgt: "<strong>set/field</strong>", act: "<strong>setfocusto</strong>" }</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>setlabelto</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>setlabelto</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>New Label</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>setlabelto</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>New Label</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>settochecked<br></strong>(For radio or checkbox fields. Index starts with 0.)<strong><br></strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/field/1</strong>&lt;/target</p>
+                                <p>&lt;action&gt;<strong>settochecked</strong>&lt;/action&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field/1</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>settochecked</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>showfield</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>showfield</strong>&lt;/action&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>showfield</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>togglefieldcontclass</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>togglefieldcontclass</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>togglefieldcontclass</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>togglelabelcontclass</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>togglelabelcontclass</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>togglelabelcontclass</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>togglepairclass</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>togglepairclass</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>myclass</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>togglepairclass</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>myclass</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>uncheckall<br></strong>(For radio or checkbox fields.)<strong><br></strong></td>
+                            <td>
+                                <p>&lt;target&gt;<strong>set/</strong><strong>field</strong>&lt;/target</p>
+                                <p>&lt;action&gt;<strong>uncheckall</strong>&lt;/action&gt;</p>
+                            </td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>uncheckall</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>updatefieldoptions</strong></td>
+                            <td>&lt;target&gt;<strong>set/field</strong>&lt;/target&gt;<br>&lt;action&gt;<strong>updatefieldoptions</strong>&lt;/action&gt;<br>&lt;param&gt;<strong>newoptions</strong>&lt;/param&gt;</td>
+                            <td>
+                                <p>{</p>
+                                <p>&nbsp;&nbsp;&nbsp; tgt: "<strong>set/field</strong>",</p>
+                                <p>&nbsp;&nbsp;&nbsp; act: "<strong>updatefieldoptions</strong>"</p>
+                                <p>&nbsp;&nbsp;&nbsp; prm: "<strong>newoptions</strong>"</p>
+                                <p>}</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="global_functions">Global Functions</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center; height: 16px;"><strong>Name</strong></th>
+                            <th style="text-align: center; height: 16px;"><strong>Arguments</strong></th>
+                            <th style="text-align: center; height: 16px;"><strong>COMMENTS</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+
+                        <tr>
+                            <td><strong>JFS.Packages</strong></td>
+                            <td><strong>Form Id</strong></td>
+                            <td>Exposes packages for all forms on the page by id.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.ParseFormXml</strong></td>
+                            <td><strong>Form XML String<br></strong></td>
+                            <td>Converts XML form definition to JSON object.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.ParseValuesXml</strong></td>
+                            <td><strong>Values XML String</strong></td>
+                            <td>Converts XML values definition to JSON object.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.PerformFormActions</strong></td>
+                            <td><strong>Array of Action Objects</strong></td>
+                            <td>
+                                <p>Example:</p>
+                                <p>JFS.PerformFormActions([{ tgt: "set/field", act: "removeclassfrompair", prm: "required_unfilled" }], pack);</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.GetSelectOptions</strong></td>
+                            <td><strong>Select Options Object</strong></td>
+                            <td>
+                                <p>Returns the HTML equivalent of an options object.</p>
+                                <p>Example:</p>
+                                <p>&nbsp;</p>
+                                <p>JFS.ParseSelectOptions([ {l:"Yes",v:"yes"}, {l:"No",v:"no"} ])</p>
+                                <p>&nbsp;</p>
+                                <p>will return:</p>
+                                <p>&nbsp;</p>
+                                <p>"&lt;option value='yes'&gt;Yes&lt;/option&gt;<br>&lt;option value='no'&gt;No&lt;/option&gt;"</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.ParseModifiersList</strong></td>
+                            <td><strong>Modifiers List</strong></td>
+                            <td>Returns an object of all the modifiers in the provided list, using each modifiers "k" value as its key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.ParseModifierParamsList</strong></td>
+                            <td><strong>Modifier Parameters List</strong></td>
+                            <td>&nbsp;Returns an object of all the parameters in the provided list, using each parameter's "k" value as its key.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.Ready</strong></td>
+                            <td><strong>Values Object, Form Package</strong></td>
+                            <td>Will be executed when a form has completed its initialization process and is rendered and ready to use.</td>
+                        </tr>
+                        <tr style="height: 54px;">
+                            <td style="height: 54px;"><strong>JFS.Changed</strong></td>
+                            <td style="height: 54px;"><strong>DOM Field, Form Key, Value After Change, Value Before Change, All Form Values, Unfilled Fields, Form Package, Change Trigger</strong></td>
+                            <td style="height: 54px;">
+                                <p>Will be executed whenever a form changes. Change Trigger values can be "user", "usergroupitemadd", "usergroupitemremove", "usergroupitemup", "usergroupitemdown", "external", and "customoptionsinit".</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.TextKeyUp</strong></td>
+                            <td><strong>JS Event Object, DOM Field, Form Key, Value After Key Up, Value Before Key Up, Form Package, Callback Function</strong></td>
+                            <td>Will be executed on "keyup" event on any text or textarea. Provides an opportunity to intercept keyboard events for field formatting purposes.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.GetCurrentValues</strong></td>
+                            <td><strong>Form Package</strong></td>
+                            <td>Returns Values Object based on current form state.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.GetCurrentFieldValue</strong></td>
+                            <td><strong>Form Key, Form Package</strong></td>
+                            <td>Returns the value of a field.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.TriggerAutoCompleteSubmit</strong></td>
+                            <td><strong>Form Package</strong></td>
+                            <td>
+                                <p>Used in conjunction with form option "IncludeAutoCompleteTrigger".</p>
+                                <p>&nbsp;</p>
+                                <p>Tricks the browser into saving the current form data as if it was submitted so if a user returns to the form, the browser can present auto-complete info.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.RegisterExternalChange</strong></td>
+                            <td><strong>DOM Field</strong></td>
+                            <td>
+                                <p>Tells the library that a field value has been updated by JavaScript so it can process the change. Once processed, the change event will execute the package's Changed function with the trigger set to "external".</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.TriggerBlurByFieldKeys</strong></td>
+                            <td><strong>Array of Form Keys, Form Package</strong></td>
+                            <td>Triggers "blur" event on list of keys.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JFS.SetTabIndexes</strong></td>
+                            <td><strong>jQuery Selector or no value for all visible fields on the page.<br></strong></td>
+                            <td>Sets a sequential "tabindex" attribute on all visible fields in the order they appear in HTML. This function is run by default during the Init sequence. To prevent it from running, add "ResetPageTabIndexes: false" to settings object.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2 id="keys">Key List</h2>
+                <table class="cust-table-highlighted-even">
+                    <thead>
+                        <tr>
+                            <th><strong>XML</strong></th>
+                            <th><strong>JSON</strong></th>
+                            <th><strong>COMMENTS</strong></th>
+                        </tr>
+                    </thead>
+                    <tbody class="t1-code">
+                        <tr>
+                            <td><strong>action</strong></td>
+                            <td><strong>act</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>actions_false</strong></td>
+                            <td><strong>actsf</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>actions_true</strong></td>
+                            <td><strong>actst</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>autofocus</strong></td>
+                            <td><strong>a</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>autocomplete</strong></td>
+                            <td><strong>c</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>control_btns</strong></td>
+                            <td><strong>cbts</strong></td>
+                            <td>Repeatable group buttons.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>detect</strong></td>
+                            <td><strong>det</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>detections</strong></td>
+                            <td><strong>dets</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>disabled</strong></td>
+                            <td><strong>d</strong></td>
+                            <td>
+                                <p>Select, radio, and checkbox fields support this key both on the entire field and on individual options (targeted by zero-based option index).</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>field_btns</strong></td>
+                            <td><strong>fbts</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>field_sets</strong></td>
+                            <td><strong>sets</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>field_value</strong></td>
+                            <td><strong>fv</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>fields</strong></td>
+                            <td><strong>fs</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>i</strong></td>
+                            <td>&nbsp;</td>
+                            <td>Array element, so no key for JSON.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>inline</strong></td>
+                            <td><strong>in</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>interactions</strong></td>
+                            <td><strong>ints</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>jfs</strong></td>
+                            <td><strong>jfs</strong></td>
+                            <td>Root node for both XML and JSON.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>key</strong></td>
+                            <td><strong>k</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>label</strong></td>
+                            <td><strong>l</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>label_position</strong></td>
+                            <td><strong>lp</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>legend</strong></td>
+                            <td><strong>lg</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>mods</strong></td>
+                            <td><strong>m</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>mods_group_fields</strong></td>
+                            <td><strong>mgf</strong></td>
+                            <td>For adding mods to specific repeatable groups.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>option_label_position</strong></td>
+                            <td><strong>olp</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>options</strong></td>
+                            <td><strong>os</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>options_predefined</strong></td>
+                            <td><strong>osp</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>param</strong></td>
+                            <td><strong>prm</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>params</strong></td>
+                            <td><strong>prms</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>placeholder</strong></td>
+                            <td><strong>p</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>show</strong></td>
+                            <td><strong>s</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>target</strong></td>
+                            <td><strong>tgt</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>type</strong></td>
+                            <td><strong>t</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>value</strong></td>
+                            <td><strong>v</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>values</strong></td>
+                            <td><strong>vs</strong></td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </section>
+
+        </div>
+    </main>
+</body>
+
+</html>
